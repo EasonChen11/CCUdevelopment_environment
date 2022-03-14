@@ -39,7 +39,6 @@ void calendar(int first_day, int month) {
     if(month==13)
         return;
     printTitle(month);
-    int sum_day=first_day+days[month];
     for (int i = 0; i < first_day*4; ++i) {
         printf(" ");
     }
@@ -49,7 +48,7 @@ void calendar(int first_day, int month) {
             printf("\n");
     }
     printf("\n\n");
-    calendar(sum_day%7,month+1);
+    calendar((first_day+days[month])%7,month+1);
 }
 
 void printTitle(int month) {
