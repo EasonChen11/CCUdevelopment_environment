@@ -78,7 +78,7 @@ void printTitle(int month) {
             break;
 
         case 7:
-            printf("JUL\t");
+            printf("JUL");
             break;
 
         case 8:
