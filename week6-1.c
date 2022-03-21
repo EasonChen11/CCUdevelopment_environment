@@ -2,8 +2,8 @@
 const char A_list[][3]={"  ","  ","A=","  ","  "};
 const char B_list[][3]={"  ","B=","  "};
 const char C_list[][3]={"  ","C=","  "};
-
-int ** func(const int A[5][5], const int B[3][3], int C[3][3], int row, int colum);
+int C[3][3]={0};
+void func(const int A[5][5], const int B[3][3], int row, int colum);
 
 void print_square5(int ** square);
 void print_square3(int ** square,char a) ;
@@ -18,14 +18,13 @@ int main() {
                       {0,1,0},
                       {1,0,1}
     };
-    int C[3][3]={0};
     print_square5(A);
     print_square3(B, 'B');
     print_square3(C, 'C');
-    int **k=func(A,B,C,0,0);
+    func(A, B, 0, 0);
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            printf("%d",k[i][j]);
+            printf("%d",C[i][j]);
         }
         printf("\n");
     }
@@ -54,16 +53,16 @@ void print_square3(int ** square,char a) {
     }
 }
 
-int ** func(const int A[5][5], const int B[3][3], int C[3][3], int row, int colum) {
+void func(const int A[5][5], const int B[3][3], int row, int colum) {
     if(row==3 && colum==3)
-        return C;
+        return;
     for (int i = row; i < row+3; ++i) {
         for (int j = colum; j < colum+3; ++j) {
             C[i][j]+=A[i][j]*B[i][j];
         }
     }
     if(colum==2)
-        func(A,B,C,row+1,0);
+        func(A, B, row + 1, 0);
     else
-        func(A,B,C,row,colum+1);
+        func(A, B, row, colum + 1);
 }
