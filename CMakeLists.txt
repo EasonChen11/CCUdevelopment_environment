@@ -3,4 +3,5 @@ project(development_environment C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(development_environment main.c)
+add_executable(6-1 week6-1.c)
+add_executable(6-2 week6-2.c)
