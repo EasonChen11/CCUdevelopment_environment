@@ -5,8 +5,8 @@ const char C_list[][3]={"  ","C=","  "};
 int C[3][3]={0};
 void func(const int A[5][5], const int B[3][3], int row, int colum);
 
-void print_square5(int ** square);
-void print_square3(int ** square,char a) ;
+void print_square5(int **square);
+void print_square3(int **square,char a) ;
 int main() {
     const int A[][5]={{1,1,1,0,0},
                       {0,1,1,1,0},
@@ -40,7 +40,7 @@ void print_square5(int ** square) {
         printf("\n");
     }
 }
-void print_square3(int ** square,char a) {
+void print_square3(int **square,char a) {
     for (int i = 0; i < 3; ++i) {
         if(a=='B')
             printf("%s",B_list[i]);
