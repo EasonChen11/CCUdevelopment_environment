@@ -75,6 +75,5 @@ void Game(int attacker, int target, int **formPtr){
         *(*(formPtr+target)+0)=0;
         *(*(formPtr+target)+1)=0;
         *(*(formPtr+target)+2)=0;
-
     }
 }
