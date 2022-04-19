@@ -3,4 +3,4 @@ project(development_environment C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(development_environment main.c)
+add_executable(week9_pointer pointer.c)

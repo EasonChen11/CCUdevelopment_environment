@@ -100,7 +100,7 @@ data * add_data(data * pData, int length) {
 
 void print_data(data * pData, int length) {
     int k=1;
-    for (int i = 0; i < length*sizeof (data); i+=sizeof (data)) {
+    for (int i = 0; i < length; i++) {
         printf("%d. order=%c id=%-4d price=%-5d \"%s\"\n",k++,(pData+i)->order,(pData+i)->id,(pData+i)->price,takeout[(pData+i)->takeout]);
     }
 }
