@@ -11,14 +11,13 @@ typedef struct food_order_DATA{
     int takeout;
     struct food_order_DATA *next_data;
 }data;
-void print_data(data * pData, int length);
+void print_data(data * pData);
 
-data * add_data(data * pData, int length);
+data * add_data(data * pData);
 
-data * remove_data(data * pData, int index, int length);
+data * dfs_remove_data(data * pData, int index,int i);
 
-data * dfs(data * pData, int index, int i);
-
+data * dfs_add_data(data * pData);
 int main() {
     data *data=NULL;
     int length=0;
@@ -30,22 +29,22 @@ int main() {
         fflush(stdin);
         switch (step) {
             case input_data:
-                data=add_data(data,length++);
-                if(data==NULL)
-                    return 0;
+                data=dfs_add_data(data);
+                length++;
                 break;
             case delete_data:
-                print_data(data,length);
+                print_data(data);
                 int index;
                 do{
                     printf("which one you want to delete:");
                     scanf("%d",&index);
                     fflush(stdin);
                 } while (index>length);
-                data=remove_data(data,index,length--);
+                data=dfs_remove_data(data,index,1);
+                length--;
                 break;
             case print_all_data:
-                print_data(data,length);
+                print_data(data);
                 break;
             case Exit:
                 free(data);
@@ -55,23 +54,18 @@ int main() {
     return 0;
 }
 
-data * remove_data(data * pData, int index, int length) {
-    data **save_data=&pData;
-    pData=dfs(pData,index,1);
+data * dfs_remove_data(data * pData, int index,int i) {
+    if(index==i){
+        data *save_data=pData->next_data;
+        free(pData);
+        return save_data;
+    }
+    pData->next_data=dfs_remove_data(pData->next_data,index,++i);
     return pData;
 }
 
-data * dfs(data * pData, int index, int i) {
-    if(index==i){
-        return pData->next_data;
-    }
-    if(pData->next_data){
-        pData->next_data=dfs(pData->next_data,index,++i);
-        return pData;
-    }
-}
 
-data * add_data(data * pData, int length) {
+/*data * add_data(data * pData) {
     data *new_data=malloc(sizeof (data));
     if(new_data==NULL){
         fprintf(stderr,"Error:unable to allocate required memory");
@@ -98,9 +92,35 @@ data * add_data(data * pData, int length) {
     } while (new_data->takeout!=0 && new_data->takeout!=1);
     new_data->next_data=NULL;
     return pData;
+}*/
+data * dfs_add_data(data * pData) {
+    if(!pData){
+        data *new_data=malloc(sizeof (data));
+        if(new_data==NULL){
+            fprintf(stderr,"Error:unable to allocate required memory");
+            exit(1);
+        }
+        printf("enter your order(A,B,C,...)\n");
+        scanf(" %c",&(new_data->order));
+        fflush(stdin);
+        printf("enter your ID(0~1000)\n");
+        scanf("%d",&(new_data->id));
+        fflush(stdin);
+        printf("enter your price(0~10000)\n");
+        scanf("%d",&(new_data->price));
+        fflush(stdin);
+        do{
+            printf("enter your For here(0) or Take out(1)\n");
+            scanf("%d",&(new_data->takeout));
+            fflush(stdin);
+        } while (new_data->takeout!=0 && new_data->takeout!=1);
+        new_data->next_data=NULL;
+        return new_data;
+    }
+    pData->next_data=dfs_add_data(pData->next_data);
+    return pData;
 }
-
-void print_data(data * pData, int length) {
+void print_data(data * pData) {
     int k=1;
     while (pData) {
         printf("%d. order=%c id=%-4d price=%-5d \"%s\"\n",k++,pData->order,pData->id,pData->price,takeout[pData->takeout]);
