@@ -13,11 +13,14 @@ typedef struct food_order_DATA{
 }data;
 void print_data(data * pData);
 
-data * add_data(data * pData);
+//data * add_data(data * pData);
 
 data * dfs_remove_data(data * pData, int index,int i);
 
-data * dfs_add_data(data * pData);
+data * dfs_add_data(data *first_data,data * pData);
+
+void free_data(data * pData);
+
 int main() {
     data *data=NULL;
     int length=0;
@@ -29,7 +32,7 @@ int main() {
         fflush(stdin);
         switch (step) {
             case input_data:
-                data=dfs_add_data(data);
+                data=dfs_add_data(data,data);
                 length++;
                 break;
             case delete_data:
@@ -47,11 +50,18 @@ int main() {
                 print_data(data);
                 break;
             case Exit:
-                free(data);
+                free_data(data);
                 return 0;
         }
     }
-    return 0;
+}
+
+void free_data(data * pData) {
+    while (pData){
+        data *save_data=pData->next_data;
+        free(pData);
+        pData=save_data;
+    }
 }
 
 data * dfs_remove_data(data * pData, int index,int i) {
@@ -93,11 +103,13 @@ data * dfs_remove_data(data * pData, int index,int i) {
     new_data->next_data=NULL;
     return pData;
 }*/
-data * dfs_add_data(data * pData) {
+data * dfs_add_data(data *first_data,data * pData) {
     if(!pData){
+        free(pData);
         data *new_data=malloc(sizeof (data));
         if(new_data==NULL){
             fprintf(stderr,"Error:unable to allocate required memory");
+            free_data(first_data);
             exit(1);
         }
         printf("enter your order(A,B,C,...)\n");
@@ -117,7 +129,7 @@ data * dfs_add_data(data * pData) {
         new_data->next_data=NULL;
         return new_data;
     }
-    pData->next_data=dfs_add_data(pData->next_data);
+    pData->next_data=dfs_add_data(first_data,pData->next_data);
     return pData;
 }
 void print_data(data * pData) {
