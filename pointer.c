@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 enum {
     input_data=1,delete_data,print_all_data,Exit
@@ -100,7 +100,8 @@ data * add_data(data * pData, int length) {
 
 void print_data(data * pData, int length) {
     int k=1;
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length*sizeof (data); i+=sizeof (data)) {
         printf("%d. order=%c id=%-4d price=%-5d \"%s\"\n",k++,(pData+i)->order,(pData+i)->id,(pData+i)->price,takeout[(pData+i)->takeout]);
     }
 }
+*///this is wrong the data will out of range.it skips many space.
