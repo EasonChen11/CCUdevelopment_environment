@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+FILE *input;
 enum {
     input_data=1,delete_data,print_all_data,Exit
 };
@@ -18,33 +19,28 @@ data * remove_data(data * pData, int index, int length);
 
 int main() {
     data *data=NULL;
+    input=fopen("410415069_2.txt","r");
+    int index,step;
     int length=0;
+    char c;
     while (1){
-        printf("please input a number (1~4)\n");
-        printf("(1)input data\n(2)delete data\n(3)print all data\n(4)exit:");
-        int step;
-        scanf("%d",&step);
-        fflush(stdin);
+        fscanf(input,"%d",&step);
         switch (step) {
             case input_data:
                 data=add_data(data,length++);
-                if(data==NULL)
+                if(data==NULL){
+                    fclose(input);
+                    print_data(data,length);
                     return 0;
+                }
                 break;
             case delete_data:
-                print_data(data,length);
-                int index;
-                do{
-                    printf("which one you want to delete:");
-                    scanf("%d",&index);
-                    fflush(stdin);
-                } while (index>length);
+                fscanf(input,"%d ",&index);
                 data=remove_data(data,index,length--);
                 break;
-            case print_all_data:
+            default:
+                fclose(input);
                 print_data(data,length);
-                break;
-            case Exit:
                 free(data);
                 return 0;
         }
@@ -74,26 +70,21 @@ data * add_data(data * pData, int length) {
         new_data[i]=pData[i];
     }
     free(pData);
-    printf("enter your order(A,B,C,...)\n");
-    scanf(" %c",&(new_data[length].order));
-    fflush(stdin);
-    printf("enter your ID(0~1000)\n");
-    scanf("%d",&(new_data[length].id));
-    fflush(stdin);
-    printf("enter your price(0~10000)\n");
-    scanf("%d",&(new_data[length].price));
-    fflush(stdin);
-    do{
-        printf("enter your For here(0) or Take out(1)\n");
-        scanf("%d",&(new_data[length].takeout));
-        fflush(stdin);
-    } while (new_data[length].takeout!=0 && new_data[length].takeout!=1);
+    char save;
+    fscanf(input,"%c",&save);
+    fscanf(input,"%c",&(new_data[length].order));
+    fscanf(input,"%c",&save);
+    fscanf(input,"%d",&(new_data[length].id));
+    fscanf(input,"%d",&(new_data[length].price));
+    fscanf(input,"%d",&(new_data[length].takeout));
     return new_data;
 }
 
 void print_data(data * pData, int length) {
+    FILE *output=fopen("410415069_2ans.txt","w+");
     int k=1;
     for (int i = 0; i < length; i++) {
-        printf("%d. order=%c id=%-4d price=%-5d \"%s\"\n",k++,(pData+i)->order,(pData+i)->id,(pData+i)->price,takeout[(pData+i)->takeout]);
+        fprintf(output,"%d. order=%c id=%-4d price=%-5d \"%s\"\n",k++,(pData+i)->order,(pData+i)->id,(pData+i)->price,takeout[(pData+i)->takeout]);
     }
+    fclose(output);
 }
