@@ -34,3 +34,16 @@ for i in range(len(img)):
     print(img[i])
 plt.imshow(img, cmap='gray', vmin=0, vmax=255)
 plt.show()
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=int(input('Please enter X of second picture'))
+y=int(input('Please enter Y of second picture'))
+img = np.zeros((y,x))
+for i in range(y):
+    img[i] = np.arange(0,256,256/x)
+    img[i][-1]=255
+img = np.around(img)
+print(img)
+plt.imshow(img,cmap='gray',vmin=0,vmax=255)'''
